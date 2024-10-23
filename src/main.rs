@@ -1,7 +1,7 @@
-mod zzz; // Declare the zzz module
-
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 use crate::zzz::test_route::test; // Import the test function from test_route
+
+mod zzz;
 
 struct AppState {
     app_name: String,
@@ -29,6 +29,11 @@ async fn manual_hello() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    let port = 8080;
+    
+    // Print server running information
+    println!("Server running on http://127.0.0.1:{}", port);
+
     HttpServer::new(|| {
         App::new()
             .service(hello)
@@ -43,7 +48,7 @@ async fn main() -> std::io::Result<()> {
                 app_name: String::from("Actix Tester"),
             }))
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("127.0.0.1", port))? // bind to the port
     .run()
     .await
 }
